@@ -6,9 +6,24 @@
 
 #include "DungeonQuest.hpp"
 
-int main(int argc, char** argv) {
-    std::vector<Room*> rooms;
+DungeonQuest::DungeonQuest()
+: m_isRunning(false) {
 
+}
+
+DungeonQuest::~DungeonQuest() {
+    // clean up
+}
+
+void DungeonQuest::start() {
+    m_isRunning = true;
+}
+
+void DungeonQuest::stop() {
+    m_isRunning = false;
+}
+
+void DungeonQuest::run() {
     Room* roomEntrance = new Room("Dungeon Entrance");
     Room* roomPrison = new Room("Prison");
     Room* roomArmory = new Room("Armory");
@@ -21,28 +36,31 @@ int main(int argc, char** argv) {
     roomTortureChamber->link(roomCatacombs, NULL, roomPrison, NULL);
     roomCatacombs->link(NULL, roomTortureChamber, NULL, NULL);
 
-    rooms.push_back(roomEntrance);
-    rooms.push_back(roomPrison);
-    rooms.push_back(roomArmory);
-    rooms.push_back(roomTortureChamber);
-    rooms.push_back(roomCatacombs);
+    m_rooms.push_back(roomEntrance);
+    m_rooms.push_back(roomPrison);
+    m_rooms.push_back(roomArmory);
+    m_rooms.push_back(roomTortureChamber);
+    m_rooms.push_back(roomCatacombs);
 
-    Player* player = new Player(roomEntrance);
+    m_player = new Player(roomEntrance);
 
-    // Test
-    player->walk("north");
-    std::cout << "You are in: " << player->getLocation()->getName() << std::endl;
-    if(player->getLocation()->getNorth() != NULL) {
-        std::cout << "To the north is: " << player->getLocation()->getNorth()->getName() << std::endl;
-    }
-    if(player->getLocation()->getSouth() != NULL) {
-        std::cout << "To the south is: " << player->getLocation()->getSouth()->getName() << std::endl;
-    }
-    if(player->getLocation()->getEast() != NULL) {
-        std::cout << "To the east is: " << player->getLocation()->getEast()->getName() << std::endl;
-    }
-    if(player->getLocation()->getWest() != NULL) {
-        std::cout << "To the west is: " << player->getLocation()->getWest()->getName() << std::endl;
+    while(m_isRunning) {
+        m_player->walk("north");
+        std::cout << "You are in: " << m_player->getLocation()->getName() << std::endl;
+        if(m_player->getLocation()->getNorth() != NULL) {
+            std::cout << "To the north is: " << m_player->getLocation()->getNorth()->getName() << std::endl;
+        }
+        if(m_player->getLocation()->getSouth() != NULL) {
+            std::cout << "To the south is: " << m_player->getLocation()->getSouth()->getName() << std::endl;
+        }
+        if(m_player->getLocation()->getEast() != NULL) {
+            std::cout << "To the east is: " << m_player->getLocation()->getEast()->getName() << std::endl;
+        }
+        if(m_player->getLocation()->getWest() != NULL) {
+            std::cout << "To the west is: " << m_player->getLocation()->getWest()->getName() << std::endl;
+        }
+
+        stop();
     }
 
     delete roomEntrance;
@@ -50,7 +68,4 @@ int main(int argc, char** argv) {
     delete roomArmory;
     delete roomTortureChamber;
     delete roomCatacombs;
-    delete player;
-
-    return 0;
 }
