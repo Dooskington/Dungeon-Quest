@@ -8,7 +8,6 @@
 
 int main(int argc, char** argv) {
     std::vector<Room*> rooms;
-    Room* currentRoom;
 
     Room* roomEntrance = new Room("Dungeon Entrance");
     Room* roomPrison = new Room("Prison");
@@ -28,20 +27,22 @@ int main(int argc, char** argv) {
     rooms.push_back(roomTortureChamber);
     rooms.push_back(roomCatacombs);
 
+    Player* player = new Player(roomEntrance);
+
     // Test
-    currentRoom = roomPrison;
-    std::cout << "You are in: " << currentRoom->getName() << std::endl;
-    if(currentRoom->getNorth() != NULL) {
-        std::cout << "To the north is: " << currentRoom->getNorth()->getName() << std::endl;
+    player->walk("north");
+    std::cout << "You are in: " << player->getLocation()->getName() << std::endl;
+    if(player->getLocation()->getNorth() != NULL) {
+        std::cout << "To the north is: " << player->getLocation()->getNorth()->getName() << std::endl;
     }
-    if(currentRoom->getSouth() != NULL) {
-        std::cout << "To the south is: " << currentRoom->getSouth()->getName() << std::endl;
+    if(player->getLocation()->getSouth() != NULL) {
+        std::cout << "To the south is: " << player->getLocation()->getSouth()->getName() << std::endl;
     }
-    if(currentRoom->getEast() != NULL) {
-        std::cout << "To the east is: " << currentRoom->getEast()->getName() << std::endl;
+    if(player->getLocation()->getEast() != NULL) {
+        std::cout << "To the east is: " << player->getLocation()->getEast()->getName() << std::endl;
     }
-    if(currentRoom->getWest() != NULL) {
-        std::cout << "To the west is: " << currentRoom->getWest()->getName() << std::endl;
+    if(player->getLocation()->getWest() != NULL) {
+        std::cout << "To the west is: " << player->getLocation()->getWest()->getName() << std::endl;
     }
 
     delete roomEntrance;
@@ -49,6 +50,7 @@ int main(int argc, char** argv) {
     delete roomArmory;
     delete roomTortureChamber;
     delete roomCatacombs;
+    delete player;
 
     return 0;
 }
