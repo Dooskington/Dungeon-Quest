@@ -24,11 +24,11 @@ void DungeonQuest::stop() {
 }
 
 void DungeonQuest::run() {
-    Room* roomEntrance = new Room("Dungeon Entrance");
-    Room* roomPrison = new Room("Prison");
-    Room* roomArmory = new Room("Armory");
-    Room* roomTortureChamber = new Room("Torture Chamber");
-    Room* roomCatacombs = new Room("Catacombs");
+    Room* roomEntrance = new Room("The Entrance Hall");
+    Room* roomPrison = new Room("The Prison");
+    Room* roomArmory = new Room("The Armory");
+    Room* roomTortureChamber = new Room("The Torture Chamber");
+    Room* roomCatacombs = new Room("The Catacombs");
 
     roomEntrance->link(roomPrison, NULL, NULL, NULL);
     roomPrison->link(NULL, roomEntrance, roomArmory, roomTortureChamber);
@@ -44,23 +44,25 @@ void DungeonQuest::run() {
 
     m_player = new Player(roomEntrance);
 
-    while(m_isRunning) {
-        m_player->walk("north");
-        std::cout << "You are in: " << m_player->getLocation()->getName() << std::endl;
-        if(m_player->getLocation()->getNorth() != NULL) {
-            std::cout << "To the north is: " << m_player->getLocation()->getNorth()->getName() << std::endl;
-        }
-        if(m_player->getLocation()->getSouth() != NULL) {
-            std::cout << "To the south is: " << m_player->getLocation()->getSouth()->getName() << std::endl;
-        }
-        if(m_player->getLocation()->getEast() != NULL) {
-            std::cout << "To the east is: " << m_player->getLocation()->getEast()->getName() << std::endl;
-        }
-        if(m_player->getLocation()->getWest() != NULL) {
-            std::cout << "To the west is: " << m_player->getLocation()->getWest()->getName() << std::endl;
+    // The line of input
+    std::string input;
+
+    // While the input is valid
+    // Get new input
+    while(processInput(input)) {
+        if(input == "quit") {
+            break;
+        } else if(input == "walk north") {
+            m_player->walk("north");
+        } else if(input == "walk south") {
+            m_player->walk("south");
+        } else if(input == "walk east") {
+            m_player->walk("east");
+        } else if(input == "walk west") {
+            m_player->walk("west");
         }
 
-        stop();
+        displayLocation();
     }
 
     delete roomEntrance;
@@ -68,4 +70,29 @@ void DungeonQuest::run() {
     delete roomArmory;
     delete roomTortureChamber;
     delete roomCatacombs;
+
+    stop();
+}
+
+bool DungeonQuest::processInput(std::string& input) {
+    std::cout << ">";
+    bool success = getline(std::cin, input);
+
+    return success;
+}
+
+void DungeonQuest::displayLocation() {
+    std::cout << "You are in " << m_player->getLocation()->getName() << "." << std::endl;
+    if(m_player->getLocation()->getNorth() != NULL) {
+        std::cout << "To the north is: " << m_player->getLocation()->getNorth()->getName() << std::endl;
+    }
+    if(m_player->getLocation()->getSouth() != NULL) {
+        std::cout << "To the south is: " << m_player->getLocation()->getSouth()->getName() << std::endl;
+    }
+    if(m_player->getLocation()->getEast() != NULL) {
+        std::cout << "To the east is: " << m_player->getLocation()->getEast()->getName() << std::endl;
+    }
+    if(m_player->getLocation()->getWest() != NULL) {
+        std::cout << "To the west is: " << m_player->getLocation()->getWest()->getName() << std::endl;
+    }
 }

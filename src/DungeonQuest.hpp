@@ -22,6 +22,9 @@ class DungeonQuest {
         void run();
         void stop();
 
+        bool processInput(std::string& line);
+        void displayLocation();
+
     private:
         std::vector<Room*> m_rooms;
         Player* m_player;
