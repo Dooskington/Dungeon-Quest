@@ -3,10 +3,9 @@
 # Declan Hopkins
 # 10/10/2015
 #
-# Mac OSX
 #
 
-CC = clang++
+CC = g++
 SRC_PATH = src
 BIN_PATH = bin
 BIN_NAME = DungeonQuest
