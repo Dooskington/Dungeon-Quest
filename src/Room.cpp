@@ -7,12 +7,12 @@
 #include "Room.hpp"
 
 Room::Room(std::string name)
-: m_name(name), m_north(NULL), m_south(NULL), m_east(NULL), m_west(NULL) {
+: m_name(name), m_north(NULL), m_south(NULL), m_east(NULL), m_west(NULL), m_item(NULL) {
 
 }
 
 Room::Room()
-: m_name(""), m_north(NULL), m_south(NULL), m_east(NULL), m_west(NULL) {
+: m_name(""), m_north(NULL), m_south(NULL), m_east(NULL), m_west(NULL), m_item(NULL) {
 
 }
 
@@ -54,6 +54,14 @@ Room* Room::getWest() {
 
 void Room::setWest(Room* newWest) {
     m_west = newWest;
+}
+
+Item* Room::getItem() {
+    return m_item;
+}
+
+void Room::setItem(Item* newItem) {
+    m_item = newItem;
 }
 
 void Room::link(Room* north, Room* south, Room* east, Room* west) {

@@ -8,6 +8,7 @@
 #define ROOM_HPP
 
 #include <string>
+#include "Item.hpp"
 
 class Room {
     public:
@@ -24,6 +25,8 @@ class Room {
         void setEast(Room* newEast);
         Room* getWest();
         void setWest(Room* newWest);
+        Item* getItem();
+        void setItem(Item* newItem);
 
         void link(Room* north, Room* south, Room* east, Room* west);
 
@@ -33,6 +36,7 @@ class Room {
         Room* m_south;
         Room* m_east;
         Room* m_west;
+        Item* m_item;
 };
 
 #endif

@@ -12,6 +12,7 @@
 #include <string>
 #include "Player.hpp"
 #include "Room.hpp"
+#include "Item.hpp"
 
 class DungeonQuest {
     public:
@@ -22,7 +23,8 @@ class DungeonQuest {
         void run();
         void stop();
 
-        bool processInput(std::string& line);
+        bool getInput(std::string& input);
+        void processInput(std::string& input);
         void displayLocation();
 
     private:

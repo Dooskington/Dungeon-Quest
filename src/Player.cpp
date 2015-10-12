@@ -57,3 +57,33 @@ void Player::walk(std::string direction) {
         std::cerr << "Invalid direction!" << std::endl;
     }
 }
+
+void Player::loot() {
+    if(m_location->getItem()) {
+        Item* item = m_location->getItem();
+        m_inventory.push_back(item);
+        m_location->setItem(NULL);
+        std::cout << "You aquire a " << item->getName() << "." << std::endl;
+    } else {
+        std::cout << "There is nothing here to loot." << std::endl;
+    }
+}
+
+void Player::displayInventory() {
+    if(m_inventory.size() == 0) {
+        std::cout << "You have nothing in your inventory." << std::endl;
+    } else {
+        std::cout << "In your backpack there is ";
+        for(std::vector<Item*>::const_iterator it = m_inventory.begin(); it != m_inventory.end(); ++it) {
+            if(m_inventory.size() > 1 && it + 1 == m_inventory.end()) {
+                std::cout << "and ";
+            }
+            std::cout << "a " << (*it)->getName();
+            if(it + 1 != m_inventory.end()) {
+                std::cout << ", ";
+            } else {
+                std::cout << "." << std::endl;
+            }
+        }
+    }
+}

@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Room.hpp"
 
 class Player {
@@ -20,8 +21,11 @@ class Player {
         void setLocation(Room* newLocation);
 
         void walk(std::string direction);
+        void loot();
+        void displayInventory();
 
     private:
+        std::vector<Item*> m_inventory;
         Room* m_location;
 };
 
