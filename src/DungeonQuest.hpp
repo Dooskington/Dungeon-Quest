@@ -9,7 +9,9 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <string>
+#include <cctype>
 #include "Player.hpp"
 #include "Room.hpp"
 #include "Item.hpp"
@@ -25,6 +27,8 @@ class DungeonQuest {
 
         bool getInput(std::string& input);
         void processInput(std::string& input);
+        void splitInput(std::string& input, std::string& cmd, std::string& arg);
+        std::vector<std::string> split(const std::string& str);
         void displayLocation();
 
     private:

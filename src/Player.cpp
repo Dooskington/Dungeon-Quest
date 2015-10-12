@@ -70,10 +70,11 @@ void Player::loot() {
 }
 
 void Player::displayInventory() {
+    std::cout << "You open up your backpack." << std::endl;
+    std::cout << "Inside, you find ";
     if(m_inventory.size() == 0) {
-        std::cout << "You have nothing in your inventory." << std::endl;
+        std::cout << "nothing." << std::endl;
     } else {
-        std::cout << "In your backpack there is ";
         for(std::vector<Item*>::const_iterator it = m_inventory.begin(); it != m_inventory.end(); ++it) {
             if(m_inventory.size() > 1 && it + 1 == m_inventory.end()) {
                 std::cout << "and ";

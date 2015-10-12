@@ -71,12 +71,15 @@ void DungeonQuest::run() {
     }
 
     // CLEAN UP
+
+    // Rooms
     delete roomEntrance;
     delete roomPrison;
     delete roomArmory;
     delete roomTortureChamber;
     delete roomCatacombs;
 
+    // Items
     delete itemShortSword;
 }
 
@@ -88,25 +91,69 @@ bool DungeonQuest::getInput(std::string& input) {
 }
 
 void DungeonQuest::processInput(std::string& input) {
-    if(input == "quit") {
+    std::string cmd;
+    std::string arg;
+    splitInput(input, cmd, arg);
+
+    if(cmd == "quit") {
         stop();
-    } else if(input == "walk north") {
-        m_player->walk("north");
+        return;
+    } 
+
+    if(cmd == "walk") {
+        m_player->walk(arg);
         displayLocation();
-    } else if(input == "walk south") {
-        m_player->walk("south");
-        displayLocation();
-    } else if(input == "walk east") {
-        m_player->walk("east");
-        displayLocation();
-    } else if(input == "walk west") {
-        m_player->walk("west");
-        displayLocation();
-    } else if(input == "loot") {
+    }
+    
+    if(cmd == "loot") {
         m_player->loot();
-    } else if(input == "inventory") {
+    }
+
+    if(cmd == "inventory") {
         m_player->displayInventory();
     }
+}
+
+// TODO
+// Make input safer
+void DungeonQuest::splitInput(std::string& input, std::string& cmd, std::string& arg) {
+    std::vector<std::string> inputs = split(input);
+    if(inputs.size() > 0) {
+        cmd = inputs[0];
+        if(inputs.size() > 1) {
+            arg = inputs[1];
+        }
+    }
+}
+
+// TODO
+// Do something with these random functions
+bool space(char c) {
+    return isspace(c);
+}
+
+bool notSpace(char c) {
+    return !isspace(c);
+}
+
+// TODO
+// Rewrite without std algorithms
+std::vector<std::string> DungeonQuest::split(const std::string& str) {
+    std::vector<std::string> ret;
+    std::string::const_iterator i = str.begin();
+    std::string::const_iterator j;
+    while(i != str.end()) {
+        i = find_if(i, str.end(), notSpace);
+        j = find_if(i, str.end(), space);
+
+        if(i != str.end()) {
+            ret.push_back(std::string(i, j));
+        }
+
+        i = j;
+    }
+
+    return ret;
 }
 
 void DungeonQuest::displayLocation() {
