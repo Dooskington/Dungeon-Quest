@@ -9,6 +9,7 @@
 
 #include <string>
 #include "Item.hpp"
+#include "Monster.hpp"
 
 class Room {
     public:
@@ -27,6 +28,8 @@ class Room {
         void setWest(Room* newWest);
         Item* getItem();
         void setItem(Item* newItem);
+        Monster* getMonster();
+        void setMonster(Monster* newMonster);
 
         void link(Room* north, Room* south, Room* east, Room* west);
 
@@ -37,6 +40,7 @@ class Room {
         Room* m_east;
         Room* m_west;
         Item* m_item;
+        Monster* m_monster;
 };
 
 #endif

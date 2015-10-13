@@ -64,6 +64,14 @@ void Room::setItem(Item* newItem) {
     m_item = newItem;
 }
 
+Monster* Room::getMonster() {
+    return m_monster;
+}
+
+void Room::setMonster(Monster* newMonster) {
+    m_monster = newMonster;
+}
+
 void Room::link(Room* north, Room* south, Room* east, Room* west) {
     setNorth(north);
     setSouth(south);

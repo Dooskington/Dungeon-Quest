@@ -27,6 +27,6 @@ class Item {
         std::string m_name;
         Type m_type;
         int m_power;
-};
+};      
 
 #endif

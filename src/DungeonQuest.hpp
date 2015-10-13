@@ -13,6 +13,7 @@
 #include <string>
 #include <cctype>
 #include "Player.hpp"
+#include "Monster.hpp"
 #include "Room.hpp"
 #include "Item.hpp"
 

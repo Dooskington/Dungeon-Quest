@@ -69,6 +69,19 @@ void Player::loot() {
     }
 }
 
+void Player::attack() {
+    Monster* monster = m_location->getMonster();
+
+    std::cout << "You swing your weapon!" << std::endl;
+    std::cout << "You hit ";
+    if(monster && monster->isAlive()) {
+        std::cout << monster->getName() << " for 3 damage!" << std::endl;
+        monster->damage(3);
+    } else {
+        std::cout << "nothing." << std::endl;
+    }
+}
+
 void Player::displayInventory() {
     std::cout << "You open up your backpack." << std::endl;
     std::cout << "Inside, you find ";

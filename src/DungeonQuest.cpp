@@ -35,6 +35,8 @@ void DungeonQuest::run() {
     Item* itemShield = new Item("Shield", Item::ARMOR, 1);
     Item* itemHelmet = new Item("Helmet", Item::ARMOR, 2);
 
+    Monster* monsterZombie = new Monster("Zombie", 5, 1);
+
     roomEntrance->link(roomArmory, NULL, NULL, NULL);
     roomArmory->link(NULL, roomEntrance, roomPrison, roomTortureChamber);
     roomPrison->link(NULL, NULL, NULL, roomArmory);
@@ -44,6 +46,8 @@ void DungeonQuest::run() {
     roomArmory->setItem(itemShortSword);
     roomPrison->setItem(itemShield);
     roomTortureChamber->setItem(itemHelmet);
+
+    roomArmory->setMonster(monsterZombie);
 
     m_rooms.push_back(roomEntrance);
     m_rooms.push_back(roomPrison);
@@ -72,6 +76,9 @@ void DungeonQuest::run() {
 
     // CLEAN UP
 
+    // Player
+    delete m_player;
+
     // Rooms
     delete roomEntrance;
     delete roomPrison;
@@ -81,6 +88,11 @@ void DungeonQuest::run() {
 
     // Items
     delete itemShortSword;
+    delete itemShield;
+    delete itemHelmet;
+
+    // Monsters
+    delete monsterZombie;
 }
 
 bool DungeonQuest::getInput(std::string& input) {
@@ -111,6 +123,10 @@ void DungeonQuest::processInput(std::string& input) {
 
     if(cmd == "inventory") {
         m_player->displayInventory();
+    }
+
+    if(cmd == "attack") {
+        m_player->attack();
     }
 }
 
@@ -172,6 +188,9 @@ void DungeonQuest::displayLocation() {
         std::cout << "To the west is " << m_player->getLocation()->getWest()->getName() << "." << std::endl;
     }
     if(m_player->getLocation()->getItem()) {
-        std::cout << "You see a " << m_player->getLocation()->getItem()->getName() << "." << std::endl;
+        std::cout << "There is a " << m_player->getLocation()->getItem()->getName() << " on the ground." << std::endl;
+    }
+    if(m_player->getLocation()->getMonster()) {
+        std::cout << "You see a " << m_player->getLocation()->getMonster()->getName() << "!" << std::endl;
     }
 }

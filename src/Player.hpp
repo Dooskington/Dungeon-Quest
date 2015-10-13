@@ -22,6 +22,7 @@ class Player {
 
         void walk(std::string direction);
         void loot();
+        void attack();
         void displayInventory();
 
     private:
