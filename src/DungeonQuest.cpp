@@ -36,6 +36,7 @@ void DungeonQuest::run() {
     Item* itemHelmet = new Item("Helmet", Item::ARMOR, 2);
 
     Monster* monsterZombie = new Monster("Zombie", 5, 1);
+    Monster* monsterGhost = new Monster("Ghost", 10, 2);
 
     roomEntrance->link(roomArmory, NULL, NULL, NULL);
     roomArmory->link(NULL, roomEntrance, roomPrison, roomTortureChamber);
@@ -48,6 +49,7 @@ void DungeonQuest::run() {
     roomTortureChamber->setItem(itemHelmet);
 
     roomArmory->setMonster(monsterZombie);
+    roomCatacombs->setMonster(monsterGhost);
 
     m_rooms.push_back(roomEntrance);
     m_rooms.push_back(roomPrison);
@@ -93,6 +95,7 @@ void DungeonQuest::run() {
 
     // Monsters
     delete monsterZombie;
+    delete monsterGhost;
 }
 
 bool DungeonQuest::getInput(std::string& input) {
@@ -110,13 +113,13 @@ void DungeonQuest::processInput(std::string& input) {
     if(cmd == "quit") {
         stop();
         return;
-    } 
+    }
 
     if(cmd == "walk") {
         m_player->walk(arg);
         displayLocation();
     }
-    
+
     if(cmd == "loot") {
         m_player->loot();
     }
@@ -173,24 +176,36 @@ std::vector<std::string> DungeonQuest::split(const std::string& str) {
 }
 
 void DungeonQuest::displayLocation() {
+    Room* location = m_player->getLocation();
     std::cout << "***************************" << std::endl;
     std::cout << "You are in " << m_player->getLocation()->getName() << "." << std::endl;
-    if(m_player->getLocation()->getNorth() != NULL) {
-        std::cout << "To the north is " << m_player->getLocation()->getNorth()->getName() << "." << std::endl;
+
+    if(location->getNorth() != NULL) {
+        std::cout << "To the north is " << location->getNorth()->getName() << "." << std::endl;
     }
-    if(m_player->getLocation()->getSouth() != NULL) {
-        std::cout << "To the south is " << m_player->getLocation()->getSouth()->getName() << "." << std::endl;
+
+    if(location->getSouth() != NULL) {
+        std::cout << "To the south is " << location->getSouth()->getName() << "." << std::endl;
     }
-    if(m_player->getLocation()->getEast() != NULL) {
-        std::cout << "To the east is " << m_player->getLocation()->getEast()->getName() << "." << std::endl;
+
+    if(location->getEast() != NULL) {
+        std::cout << "To the east is " << location->getEast()->getName() << "." << std::endl;
     }
-    if(m_player->getLocation()->getWest() != NULL) {
-        std::cout << "To the west is " << m_player->getLocation()->getWest()->getName() << "." << std::endl;
+
+    if(location->getWest() != NULL) {
+        std::cout << "To the west is " << location->getWest()->getName() << "." << std::endl;
     }
-    if(m_player->getLocation()->getItem()) {
-        std::cout << "There is a " << m_player->getLocation()->getItem()->getName() << " on the ground." << std::endl;
+
+    if(location->getItem()) {
+        std::cout << "There is a " << location->getItem()->getName() << " on the ground." << std::endl;
     }
-    if(m_player->getLocation()->getMonster()) {
-        std::cout << "You see a " << m_player->getLocation()->getMonster()->getName() << "!" << std::endl;
+
+    if(location->getMonster()) {
+        std::cout << "You see a " << location->getMonster()->getName();
+        if(location->getMonster()->isAlive()) {
+            std::cout << "!" << std::endl;
+        } else {
+            std::cout << " carcass." << std::endl;
+        }
     }
 }

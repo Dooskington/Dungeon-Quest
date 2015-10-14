@@ -3,7 +3,6 @@
 # Declan Hopkins
 # 10/10/2015
 #
-#
 
 CC = g++
 SRC_PATH = src
